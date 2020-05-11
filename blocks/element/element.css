@@ -1,0 +1,10 @@
+@import url('./__photo/element__photo.css');
+@import url('./__group/element__group.css');
+@import url('./__text/element__text.css');
+@import url('./__button-like/element__button-like.css');
+
+.element {    
+    max-width: 282px;    
+    border-radius: 10px;
+    background: #FFFFFF;
+}
