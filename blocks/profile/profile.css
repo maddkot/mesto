@@ -4,8 +4,6 @@
 @import url("./__edit-button/profile__edit-button.css");
 @import url("./__description/profile__description.css");
 @import url("./__add-button/profile__add-button.css");
-@import url('./__picture-edit-button/profile__picture-edit-button.css');
-@import url('./__picture-add-button/profile__picture-add-button.css');
 
 .profile {
   max-width: 882px;
@@ -13,14 +11,12 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  
 }
 
 @media screen and (max-width: /*708px*/ 945px) {
   .profile {
     flex-wrap: wrap;
     justify-content: center;
-    
   }
 }
 
@@ -31,7 +27,7 @@
 }
 
 @media screen and (max-width: 320px) {
-  .profile {    
+  .profile {
     margin: 0 19px 36px;
   }
 }

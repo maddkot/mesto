@@ -1,0 +1,14 @@
+@import url("./_full-name/popup__input_full-name.css");
+@import url("./_description/popup__input_description.css");
+
+.popup__input {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  line-height: 17px;
+  padding-bottom: 13px;
+}
+
+.popup__input:last-child {
+  margin-top: 30px;
+}

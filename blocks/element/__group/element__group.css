@@ -2,5 +2,6 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin: 25px 15px 31px 21px; 
+    margin: 25px 15px 31px 21px;
+    max-width: 246px; 
 }

@@ -1,6 +1,7 @@
 .profile__full-name {
   margin-block-start: 0em;
   margin-block-end: 0em;
+  font-weight: 500;
   font-size: 42px;
   line-height: 56px;
   color: #ffffff;
