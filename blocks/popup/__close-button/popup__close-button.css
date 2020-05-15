@@ -3,8 +3,10 @@
   border: none;
   background-color: transparent;
   position: relative;
-  top: -35px;
-  right: 10px;
+  /*top: -35px;
+  right: 10px;*/
+  top: 15px;
+  left: 365px;
   width: 50px;
   height: 50px;
   background: url("../../../images/close_icon.svg") no-repeat center;
@@ -17,13 +19,15 @@
   opacity: 0.6;
 }
 
-@media screen and (max-width: 356px) {
+@media screen and (/*max-width: 356px*/ max-width: 430px) {
   .popup__close-button {
     width: 38px;
     height: 38px;
     /*top: -22px;
       right: 5px;*/
-    top: -33px;
-    right: 35px;
+    /*top: -33px;
+    right: 35px; 'nb*/
+    top: 10px;
+    left: 265px;
   }
 }

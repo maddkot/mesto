@@ -1,12 +1,12 @@
 .popup__container {
     max-width: 450px;
-    display: flex;
+    /*display: flex;
     flex-wrap: nowrap;
-    align-items: flex-start;
+    align-items: flex-start;*/
   }
   
   @media screen and (max-width: 424px) {
     .popup__container {
-      margin-left: 15px;
+      margin-left: 5px;
     }
   }

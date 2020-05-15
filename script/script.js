@@ -42,3 +42,21 @@ function saveProfile(e) {
 closeButton.addEventListener("click", closePopup);
 editButton.addEventListener("click", openPopup);
 form.addEventListener("submit", saveProfile);
+
+/* Функционал по объединению функций открытия и закрытия в одну функцию
+function modal () {
+  if (popup.classList.contains('popup_opened')) {
+    popup.classList.add("popup_opened");
+    popupFullName.value = fullName.textContent;
+    popupDescription.value = description.textContent;
+    console.log('test')
+  }  
+  else {
+    popup.classList.remove("popup_opened");
+  }
+} 
+
+Добавить отслеживание нажатия кнопки и разобраться, почему не определяется если при закрытии 
+
+Разобраться, почему не работает функция
+*/
