@@ -6,10 +6,11 @@
     background-image: url('../../../images/like_heart.svg');
     background-position: center;
     background-repeat: no-repeat;
-    cursor: pointer;        
+    cursor: pointer;
+    outline: none;        
 }
 
 .element__button-like:hover {
-   opacity: 0.6;
+   opacity: 0.6; 
    transform: scale(1.2); 
 }

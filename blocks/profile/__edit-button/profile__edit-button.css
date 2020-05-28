@@ -7,7 +7,8 @@
   background-image: url("../../../images/edit__button.svg");
   background-position: center;
   background-repeat: no-repeat;  
-  padding: 0;  
+  padding: 0;
+  outline: none;  
 }
 
 .profile__edit-button:hover {

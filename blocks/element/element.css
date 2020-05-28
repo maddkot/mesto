@@ -2,9 +2,11 @@
 @import url('./__group/element__group.css');
 @import url('./__text/element__text.css');
 @import url('./__button-like/element__button-like.css');
+@import url('./__basket/element__basket.css');
 
 .element {    
-    max-width: 282px;    
+    max-width: 282px;
+    max-height: 361px;    
     border-radius: 10px;
     background: #FFFFFF;
 }

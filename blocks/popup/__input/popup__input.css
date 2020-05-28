@@ -1,5 +1,5 @@
-@import url("./_full-name/popup__input_full-name.css");
-@import url("./_description/popup__input_description.css");
+@import url('./_full-name/popup__input_full-name.css');
+@import url('./_description/popup__input_description.css');
 
 .popup__input {
   border: none;
@@ -7,6 +7,11 @@
   font-size: 14px;
   line-height: 17px;
   padding-bottom: 13px;
+  outline: none;
+  -moz-border: none;
+  -moz-border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  -moz-outline: none;
+  outline-style: none;
 }
 
 .popup__input:last-child {
