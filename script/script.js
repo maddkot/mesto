@@ -66,18 +66,18 @@ function togglePopup(popup) {
   popup.classList.toggle('popup_opened');
 }
 
+/* Функция закрытия попап-блок с галереей картинок*/
+function closePopupImage() {
+  togglePopup(popupImage);
+}
+
 /*-----НИЖЕ ФУНКЦИОНАЛ РАБОТЫ С РЕДАКТИРОВАНИЕМ ПРОФИЛЯ-----*/
 /* Функция открытия и закрытия окна редактирования профиля
  добавляет текст из модального окна на страницу*/
 function openProfilePopup() {
-  togglePopup(popupEditProfile);
   popupFullName.value = fullName.textContent;
   popupDescription.value = description.textContent;
-}
-
-/* Функция закрытия попап-блок с галереей картинок*/
-function closePopupImage() {
-  togglePopup(popupImage);
+  togglePopup(popupEditProfile);
 }
 
 /* Функция изменения информации на странице профиля через модальное окно с получением информации, отображаемой на странице
@@ -92,68 +92,74 @@ function saveProfile(event) {
 /*-----НИЖЕ ФУНКЦИОНАЛ РАБОТЫ С ДОБАВЛЕНИЕМ/УДАЛЕНИЕМ КАРТОЧЕК-----*/
 /* Функция открытия модального окна добавления элементов с картинками*/
 function modalAddForm() {
-  togglePopup(popupAddForm);
   popupUrl.value = '';
   popupTitle.value = '';
+  togglePopup(popupAddForm);
 }
 
 /*функция добавления карточек на страницу из массива c правилом проверки для расположения*/
 function addElement(link, name) {
-  let element = elementTemplate.cloneNode(true); //клонируем элемент
+  const element = elementTemplate.cloneNode(true); //клонируем элемент
   element.querySelector('.element__photo').src = link; //выбираем селектор и задаем  адрес картинки из массива
   element.querySelector('.element__photo').alt = name; //задаем описание картинки исходя из её названия
   element.querySelector('.element__text').textContent = name; // выбираем класс и задаем название картинки из массива
-  pasteCard(element); //вызываем функцию добавления карточки в разметку
+  element
+    .querySelector('.element__button-like')
+    .addEventListener('click', likeClick);
+  element
+    .querySelector('.element__basket')
+    .addEventListener('click', deleteClick);
+  element
+    .querySelector('.element__photo')
+    .addEventListener('click', imageClick);
+  return element;
 }
 
 /*Выполнение перебора массива и выполнение для каждого элемента функции*/
-function firstLoadingCards() {
-  initialCards.reverse();
-  initialCards.forEach(function (element) {
-    addElement(element.link, element.name); //подставляем значения массива в функцию
+function firstLoadingCards(listCards, parentElement) {
+  listCards.forEach((element) => {
+    parentElement.append(addElement(element.link, element.name)); //подставляем значения массива в функцию
   });
 }
 
-/* вызываем функцию перебора массива с карточками для отображения*/
-firstLoadingCards();
-
-/* функция добавление карточки в разметку */
-function pasteCard(event) {
-  elementCardField.prepend(event);
-}
-
+/* вызываем функциЮ с дефолтными карточками для отображения*/
+firstLoadingCards(initialCards, elementCardField);
 /*функция добавления новой карточки из модального окна*/
 function addCard(event) {
   event.preventDefault();
-  addElement(popupUrl.value, popupTitle.value);
+  elementCardField.prepend(addElement(popupUrl.value, popupTitle.value));
   modalAddForm();
 }
 
+/*усложненный ВАРИАНТ РЕАЛИЗАЦИИ ДОБАВЛЕНИЯ КАРТОЧКИ (В СЛУШАТЕЛЕ добавить ПАРАМЕТР)*/
+/*function addCard(parentElement) {
+  return function (event) {
+    event.preventDefault();
+    parentElement.prepend(addElement(popupUrl.value, popupTitle.value));
+    modalAddForm();
+  };
+}*/
+
 /* функция удаления карточки */
 function deleteClick(event) {
-  let deleteElement = event.target.closest('.element__basket');
-  if (deleteElement) {
-    deleteElement.closest('.element').remove();
-  }
+  event.target.closest('.element').remove();
 }
 
 /* функция удаления/добавления лайка*/
 function likeClick(event) {
-  let likeElement = event.target.closest('.element__button-like');
-  if (likeElement) {
-    likeElement.classList.toggle('element__button-like_on');
-  }
+  event.target.classList.toggle('element__button-like_on');
 }
 
 /* функция открытия попап-блока с картинкой на полный экран*/
 function imageClick(event) {
-  let elementPhoto = event.target.closest('.element__photo');
-  if (elementPhoto) {
-    togglePopup(popupImage);
-    popupImageFrame.src = elementPhoto.src;
-    popupImageFrame.alt = elementPhoto.alt;
-    popupImageTitle.textContent = elementPhoto.alt;
-  }
+  /* const elementPhoto = event.target.closest('.element__photo');
+  if (elementPhoto) {    */
+
+  popupImageFrame.src = event.target.src;
+  popupImageFrame.alt = event.target.alt;
+  popupImageTitle.textContent = event.target.alt;
+  togglePopup(popupImage);
+  //}
 }
 
 /*-----СЛУШАТЕЛИ СОБЫТИЙ-----*/
@@ -162,8 +168,5 @@ profileCloseButton.addEventListener('click', openProfilePopup); // слушат�
 saveFormEditProfile.addEventListener('submit', saveProfile); // слушатель кнопки сохранить попап редактирования профиля
 addButton.addEventListener('click', modalAddForm); // слушатель кнопки добавления карточек
 popupCloseAddForm.addEventListener('click', modalAddForm); // слушатель крестика попапа добавления карточек
-popupAddCard.addEventListener('submit', addCard); //слушатель на кнопке сoздать с функцией добавления карточки
-elementCardField.addEventListener('click', deleteClick); // слушатель на блоке карточек с функцией удаления карточки
-elementCardField.addEventListener('click', likeClick); //слушатель на блоке карточекс функцией установки/снятия лайка
-elementCardField.addEventListener('click', imageClick); // слушатель на блоке карточек с функцией клика по картинке и открытия ее на весь экран
+popupAddCard.addEventListener('submit', addCard /*(elementCardField)*/); //слушатель на кнопке сoздать с функцией добавления карточки
 popupImageCloseButton.addEventListener('click', closePopupImage); // слушатель на крестик в попап-блок галереии картинок
