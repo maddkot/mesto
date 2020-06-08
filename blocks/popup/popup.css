@@ -4,7 +4,11 @@
 @import url('./__inputs/popup__inputs.css');
 @import url('./__input/popup__input.css');
 @import url('./__button-save/popup__button-save.css');
+@import url('./__input-error/popup__input-error.css');
 @import url('./__close-button/popup__close-button.css');
+@import url('./__button-save/_inactive/popup__button-save_inactive.css');
+@import url('./__input-error/_active/popup__input-error_active.css');
+
 
 .popup {
   position: fixed;

@@ -1,37 +1,3 @@
-/*-----МАССИВ ПЕРЕМЕННЫХ-----*/
-const initialCards = [
-  {
-    name: 'Архыз',
-    link:
-      'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
-  },
-  {
-    name: 'Челябинская область',
-    link:
-      'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
-  },
-  {
-    name: 'Иваново',
-    link:
-      'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
-  },
-  {
-    name: 'Камчатка',
-    link:
-      'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
-  },
-  {
-    name: 'Холмогорский район',
-    link:
-      'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
-  },
-  {
-    name: 'Байкал',
-    link:
-      'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
-  },
-];
-
 const profileEditButton = document.querySelector('.profile__edit-button'); //кнопка редактирование профиля
 const popupEditProfile = document.querySelector('.popup'); // окно редактирование профиля
 const profileCloseButton = document.querySelector('.popup__close-button'); //крестик на попапе редактирования профиля
@@ -64,6 +30,7 @@ const popupImageCloseButton = document.querySelector(
 /* Функция проверки наличия класса для открытия/закрытия модальных окон*/
 function togglePopup(popup) {
   popup.classList.toggle('popup_opened');
+  document.removeEventListener('keydown', closePopupPressOnEsc);
 }
 
 /* Функция закрытия попап-блок с галереей картинок*/
@@ -78,6 +45,10 @@ function openProfilePopup() {
   popupFullName.value = fullName.textContent;
   popupDescription.value = description.textContent;
   togglePopup(popupEditProfile);
+  enableValidation();
+  hideInputError(saveFormEditProfile, popupFullName);
+  hideInputError(saveFormEditProfile, popupDescription);
+  document.addEventListener('keydown', closePopupPressOnEsc);
 }
 
 /* Функция изменения информации на странице профиля через модальное окно с получением информации, отображаемой на странице
@@ -92,9 +63,12 @@ function saveProfile(event) {
 /*-----НИЖЕ ФУНКЦИОНАЛ РАБОТЫ С ДОБАВЛЕНИЕМ/УДАЛЕНИЕМ КАРТОЧЕК-----*/
 /* Функция открытия модального окна добавления элементов с картинками*/
 function modalAddForm() {
-  popupUrl.value = '';
-  popupTitle.value = '';
+  popupAddCard.reset();
   togglePopup(popupAddForm);
+  hideInputError(popupAddCard, popupTitle);
+  hideInputError(popupAddCard, popupUrl);
+  setEventListeners(popupAddCard);
+  document.addEventListener('keydown', closePopupPressOnEsc);
 }
 
 /*функция добавления карточек на страницу из массива c правилом проверки для расположения*/
@@ -124,11 +98,13 @@ function firstLoadingCards(listCards, parentElement) {
 
 /* вызываем функциЮ с дефолтными карточками для отображения*/
 firstLoadingCards(initialCards, elementCardField);
+
 /*функция добавления новой карточки из модального окна*/
 function addCard(event) {
   event.preventDefault();
   elementCardField.prepend(addElement(popupUrl.value, popupTitle.value));
   modalAddForm();
+  document.removeEventListener('keydown', closePopupPressOnEsc);
 }
 
 /*усложненный ВАРИАНТ РЕАЛИЗАЦИИ ДОБАВЛЕНИЯ КАРТОЧКИ (В СЛУШАТЕЛЕ добавить ПАРАМЕТР)*/
@@ -153,13 +129,27 @@ function likeClick(event) {
 /* функция открытия попап-блока с картинкой на полный экран*/
 function imageClick(event) {
   /* const elementPhoto = event.target.closest('.element__photo');
-  if (elementPhoto) {    */
-
+  if (elementPhoto) { */
   popupImageFrame.src = event.target.src;
   popupImageFrame.alt = event.target.alt;
   popupImageTitle.textContent = event.target.alt;
   togglePopup(popupImage);
+  document.addEventListener('keydown', closePopupPressOnEsc);
   //}
+}
+
+function closePopupWithOverlay(event) {
+  if (event.target.classList.contains('popup')) {
+    //togglePopup(event.target.closest('.popup'));
+    togglePopup(event.target);
+  }
+}
+
+function closePopupPressOnEsc(event) {
+  if (event.key === 'Escape') {
+    document.querySelector('.popup_opened').classList.remove('popup_opened');
+    document.removeEventListener('keydown', closePopupPressOnEsc);
+  }
 }
 
 /*-----СЛУШАТЕЛИ СОБЫТИЙ-----*/
@@ -170,3 +160,6 @@ addButton.addEventListener('click', modalAddForm); // слушатель кно�
 popupCloseAddForm.addEventListener('click', modalAddForm); // слушатель крестика попапа добавления карточек
 popupAddCard.addEventListener('submit', addCard /*(elementCardField)*/); //слушатель на кнопке сoздать с функцией добавления карточки
 popupImageCloseButton.addEventListener('click', closePopupImage); // слушатель на крестик в попап-блок галереии картинок
+document.querySelectorAll('.popup').forEach((popupElement) => {
+  popupElement.addEventListener('click', closePopupWithOverlay);
+});

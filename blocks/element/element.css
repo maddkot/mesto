@@ -9,4 +9,5 @@
     max-height: 361px;    
     border-radius: 10px;
     background: #FFFFFF;
+    overflow: hidden;
 }
