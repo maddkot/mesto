@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="discription" content="сайт о местах">
+  <meta name="description" content="сайт о местах">
   <meta name="keywords" content="Места для путешествий по России Фотографии красивых мест России">
   <link rel="stylesheet" href="page/index.css">
   <title>Mesto Russia</title>
@@ -33,8 +33,7 @@
         </button>
       </section>
 
-      <div class="elements"></div>
-      <div class="elementss"></div>
+      <div class="elements"></div>      
 
     </main>
 
@@ -42,13 +41,15 @@
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
 
-    <div class="popup">
+    <section class="popups">
+
+    <div class="popup popup_edit-profile">
 
       <div class="popup__container">
 
         <button class="popup__close-button" type="button" aria-label="Close">
         </button>
-        <form class="popup__form" action="#" method="GET" name="popup__form_edit-profile" novalidate>
+        <form class="popup__form popup__form_edit-profile" action="#" method="GET" name="popup__form_edit-profile" novalidate>
           <h3 class="popup__title">Редактировать профиль</h3>
           <div class="popup__inputs">
             <input id="full-name-input" class="popup__input popup__input_full-name" type="text"
@@ -61,7 +62,7 @@
             <span id="descriptions-input-error" class="popup__input-error"></span>
           </div>
 
-          <button class="popup__button-save" type="submit" aria-label="Save">Сохранить</button>
+          <button class="popup__button-save popup__button-save_profile" type="submit" aria-label="Save">Сохранить</button>
         </form>
 
       </div>
@@ -72,7 +73,7 @@
 
       <div class="popup__container">
 
-        <button class="popup__close-button popup__close-button_add-form" type="button" aria-label="Close">
+        <button class="popup__close-button" type="button" aria-label="Close">
         </button>
         <form class="popup__form popup__form_add" action="#" method="GET" name="popup__form_add-newCard" novalidate>
           <h3 class="popup__title">Новое место</h3>
@@ -84,7 +85,7 @@
               placeholder="Cсылка на картинку (url)" autocomplete="off">
             <span id="url-input-error" class="popup__input-error"></span>
           </div>
-          <button class="popup__button-save" type="submit" aria-label="Save">Создать</button>
+          <button class="popup__button-save popup__button-save_form_add" type="submit" aria-label="Save">Создать</button>
         </form>
 
       </div>
@@ -104,6 +105,7 @@
     </div>
 
   </div>
+</section>
 
   <template class="element-template">
     <div class="element">
