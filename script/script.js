@@ -15,6 +15,10 @@ const popupAddCard = document.querySelector('.popup__form_add'); // вся фо�
 const popupImage = document.querySelector('.popup-image'); // попаg-блок - галерея картинок
 const popupImageFrame = document.querySelector('.popup-image__frame'); // картинка в попап-блоке галереии картинок
 const popupImageTitle = document.querySelector('.popup-image__title'); // подпись в попап-блоке галереии картинок
+const popupButtonSaveEditForm = document.querySelector('.popup__button-save_profile'); //кнопка сохранить редактирования профиля
+const popupButtonSaveAddForm = document.querySelector('.popup__button-save_form_add'); //кнопка сохранить добавления карточки
+const inputArrayPopupOpenProfile = Array.from(popupEditProfile.querySelectorAll(objectWithSelectors.popupInput)); //массив инпутов редактирования профиля
+const inputArrayPopupAddCard = Array.from(popupAddCard.querySelectorAll(objectWithSelectors.popupInput)); //массив инпутов добавления карточки
 
 //функция закрытия по оверлею
 function closePopupWithOverlay(event) {
@@ -60,8 +64,8 @@ function openProfilePopup() {
   popupDescription.value = description.textContent;
   openPopup(popupEditProfile);   
   hideInputError(popupFormEditProfile, popupFullName, objectWithSelectors); 
-  hideInputError(popupFormEditProfile, popupDescription, objectWithSelectors);
-  setEventListeners(popupEditProfile, objectWithSelectors); 
+  hideInputError(popupFormEditProfile, popupDescription, objectWithSelectors);  
+  toggleButtonState(inputArrayPopupOpenProfile, popupButtonSaveEditForm);  
 } 
 
 /* Функция изменения информации на странице профиля через модальное окно с получением информации, отображаемой на странице
@@ -80,7 +84,7 @@ function modalAddForm() {
   openPopup(popupAddForm);
   hideInputError(popupAddCard, popupTitle, objectWithSelectors);
   hideInputError(popupAddCard, popupUrl, objectWithSelectors);
-  setEventListeners(popupAddCard, objectWithSelectors);    
+  toggleButtonState(inputArrayPopupAddCard, popupButtonSaveAddForm);    
 }
 
 /*функция добавления карточек на страницу из массива c правилом проверки для расположения*/
@@ -133,10 +137,9 @@ function imageClick(event) {
 }
 
 /*-----СЛУШАТЕЛИ СОБЫТИЙ-----*/
-//popups.addEventListener('click', closePopupByCross); //слушатель на блоке для закрытия по крестику модальных блоков
 profileEditButton.addEventListener('click', openProfilePopup); // слушатель кнопки редактирования профиля
 popupFormEditProfile.addEventListener('submit', saveProfile); // слушатель кнопки сохранить попап редактирования профиля
 addButton.addEventListener('click', modalAddForm); // слушатель кнопки добавления карточек
 popupAddCard.addEventListener('submit', addCard /*(elementCardField)*/); //слушатель на кнопке сoздать с функцией добавления карточки
 
-
+/* ---------СПАСИБО БОЛЬШОЕ ЗА РЕВЬЮ! Даже если я не сдам - было очень полезно.----------- */
