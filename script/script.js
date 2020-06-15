@@ -1,48 +1,20 @@
 const profileEditButton = document.querySelector('.profile__edit-button'); //кнопка редактирование профиля
 const popupEditProfile = document.querySelector('.popup_edit-profile'); // окно редактирование профиля
-const popupCloseButton = document.querySelectorAll('.popup__close-button'); //крестик на попапе редактирования профиля
 const popupFormEditProfile = document.querySelector('.popup__form_edit-profile'); // вся форма попап редактирования профиля
-
 const fullName = document.querySelector('.profile__full-name'); //имя профиля
 const description = document.querySelector('.profile__description'); // подпись профиля
 const popupFullName = document.querySelector('.popup__input_full-name'); //значения имени в попап профиля
 const popupDescription = document.querySelector('.popup__input_description'); //значения подписи в попап профиля
-
 const addButton = document.querySelector('.profile__add-button'); // кнопка добавление карточек
 const popupAddForm = document.querySelector('.popup_add-form'); //попап добавления*/
-
 const elementCardField = document.querySelector('.elements'); //выбираем весь блок с карточками
 const elementTemplate = document.querySelector('.element-template').content; //выбор содержимого блока  карточки
-
 const popupTitle = document.querySelector('.popup__input_title'); // значение подписи в попап добавления карточки
 const popupUrl = document.querySelector('.popup__input_url'); // значение адреса в попап добавления карточки
 const popupAddCard = document.querySelector('.popup__form_add'); // вся форма попап добавления новых карточек
-
 const popupImage = document.querySelector('.popup-image'); // попаg-блок - галерея картинок
 const popupImageFrame = document.querySelector('.popup-image__frame'); // картинка в попап-блоке галереии картинок
 const popupImageTitle = document.querySelector('.popup-image__title'); // подпись в попап-блоке галереии картинок
-const popupImageCloseButton = document.querySelector(
-  '.popup-image__close-button'
-);
-const popups = document.querySelector('.popups'); //секци, содержащая все попапы
-
-
-
-
-//функция открытия модального окна и добавление слушателей
-function openPopup (element) {
-  element.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupPressOnEsc);
-  document.addEventListener('click', closePopupWithOverlay);
-  
-}
-
-//функция закряти модального окна и удаления слушателей
-function closePopup(element) {
-  element.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupPressOnEsc);
-  document.removeEventListener('click', closePopupWithOverlay);
-}  
 
 //функция закрытия по оверлею
 function closePopupWithOverlay(event) {
@@ -53,28 +25,34 @@ function closePopupWithOverlay(event) {
 
 // функция закрытия через ESC
 function closePopupPressOnEsc(event) {
-  if (event.key === 'Escape') {
-    document.querySelector('.popup_opened').classList.remove('popup_opened');
-    document.removeEventListener('keydown', closePopupPressOnEsc);
-    document.removeEventListener('click', closePopupWithOverlay);
+  if (event.key === 'Escape') {    
+    const popupOpened = document.querySelector('.popup_opened');
+    closePopup(popupOpened);    
   }
 }
 
 //функция закрытия на крестик
-function closePopupByCross(event) {
-  if (event.target.classList.contains('popup__close-button')) {
-    document.querySelector('.popup_opened').classList.remove('popup_opened');
-  }
+function closePopupByCross() {  
+  const popupOpened = document.querySelector('.popup_opened');
+  closePopup(popupOpened);
 }
 
-/* Функция закрытия попап-блок с галереей картинок*/
-function closePopupImage() { 
-  closePopup(popupImage);
+//функция открытия модального окна и добавление слушателей
+function openPopup (element) {
+  element.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupPressOnEsc);
+  document.addEventListener('click', closePopupWithOverlay);
+  element.querySelector('.popup__close-button').addEventListener('click', closePopupByCross);
+}
+
+//функция закряти модального окна и удаления слушателей
+function closePopup(element) {
+  element.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupPressOnEsc);
   document.removeEventListener('click', closePopupWithOverlay);
-}
+  element.querySelector('.popup__close-button').removeEventListener('click', closePopupByCross);
+}  
 
-/*-----НИЖЕ ФУНКЦИОНАЛ РАБОТЫ С РЕДАКТИРОВАНИЕМ ПРОФИЛЯ-----*/
 /* Функция открытия и закрытия окна редактирования профиля
  добавляет текст из модального окна на страницу*/
 function openProfilePopup() {  
@@ -95,7 +73,7 @@ function saveProfile(event) {
   closePopup(popupEditProfile);
 }
 
-/*-----НИЖЕ ФУНКЦИОНАЛ РАБОТЫ С ДОБАВЛЕНИЕМ/УДАЛЕНИЕМ КАРТОЧЕК-----*/
+
 /* Функция открытия модального окна добавления элементов с картинками*/
 function modalAddForm() {  
   popupAddCard.reset();  
@@ -155,10 +133,10 @@ function imageClick(event) {
 }
 
 /*-----СЛУШАТЕЛИ СОБЫТИЙ-----*/
-popups.addEventListener('click', closePopupByCross); //слушатель на блоке для закрытия по крестику модальных блоков
+//popups.addEventListener('click', closePopupByCross); //слушатель на блоке для закрытия по крестику модальных блоков
 profileEditButton.addEventListener('click', openProfilePopup); // слушатель кнопки редактирования профиля
 popupFormEditProfile.addEventListener('submit', saveProfile); // слушатель кнопки сохранить попап редактирования профиля
 addButton.addEventListener('click', modalAddForm); // слушатель кнопки добавления карточек
 popupAddCard.addEventListener('submit', addCard /*(elementCardField)*/); //слушатель на кнопке сoздать с функцией добавления карточки
-popupImageCloseButton.addEventListener('click', closePopupImage); // слушатель на крестик в попап-блок галереии картинок
+
 
