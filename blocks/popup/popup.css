@@ -8,6 +8,7 @@
 @import url('./__close-button/popup__close-button.css');
 @import url('./__button-save/_inactive/popup__button-save_inactive.css');
 @import url('./__input-error/_active/popup__input-error_active.css');
+@import url('./__input/_type-error/popup__input_type-error.css');
 
 
 .popup {
