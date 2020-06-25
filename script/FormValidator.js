@@ -1,4 +1,4 @@
-export class validationForm {
+export class FormValidator {
 
   constructor(formElement, objectWithSelectors) {
       this._formElement = formElement;
@@ -43,11 +43,11 @@ export class validationForm {
       });
   }
 
-// функция создания массива из всех форм на странице, с перебором и установкой слушателя с отменой отправки формы +
+// метод включения валидации формы
   enableValidation = () => {
-      this._formElement.addEventListener('submit', (evt) => {
+      /*this._formElement.addEventListener('submit', (evt) => {
           evt.preventDefault();
-      });
+      });*/
       this._setEventListeners(this._objectWithSelectors);
   }
 

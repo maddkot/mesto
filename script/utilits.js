@@ -34,13 +34,3 @@ export function closePopupWithOverlay(event) {
     document.removeEventListener('click', closePopupWithOverlay);
     element.querySelector('.popup__close-button').removeEventListener('click', closePopupByCross);
 }  
-  
-
-/* ПУточнить. будеит ли это оптимальным решением для оптимизации кода. если вынести открытие и закрытие в единую ф-ю с проверкой
-export function togglePopup(element, className) {
-    if(element.classList.contains(className)){
-        closePopup(element)
-    } else {
-        openPopup(element)
-    }
-}*/

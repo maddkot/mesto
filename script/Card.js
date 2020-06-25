@@ -9,34 +9,41 @@ export class Card {
 
   /* Функция копирования template элемента*/
   _getElementTemplate() {
-    return document.querySelector(this._cardSelector).content.querySelector('.element').cloneNode(true);
-  
+    return this._cardSelector.content.querySelector('.element').cloneNode(true);  
   }
 
   /*функция добавления карточек на страницу из массива c правилом проверки для расположения*/
   createCard() {
     this._element = this._getElementTemplate();
-    this._element.querySelector('.element__photo').src = this._link;
-    this._element.querySelector('.element__photo').alt = this._name;    
-    this._element.querySelector('.element__text').textContent = this._name;
+    const elementPhoto = this._element.querySelector('.element__photo');
+    const elementText = this._element.querySelector('.element__text');
+    const elementButtonLike = this._element.querySelector('.element__button-like');
+    const elementBasket = this._element.querySelector('.element__basket');
+    elementPhoto.src = this._link;
+    elementPhoto.alt = this._name;    
+    elementText.textContent = this._name;
 
-    this._element.querySelector('.element__button-like').addEventListener('click', () => this._likeClick());
-    this._element.querySelector('.element__basket').addEventListener('click', () => this._deleteClick());
-    this._element.querySelector('.element__photo').addEventListener('click', this._imageClick);
+    elementButtonLike.addEventListener('click', () => this._likeClick());
+    elementBasket.addEventListener('click', () => this._deleteClick());
+    elementPhoto.addEventListener('click', this._imageClick);
     return this._element;
   }
 
   /* функция удаления карточки */
-  _deleteClick() {
-    //event.target.closest('.element').remove();    
+  _deleteClick() {    
     this._element.remove();
+    this._element = null;
   }
 
   /* функция удаления/добавления лайка*/
   _likeClick() {
-    this._element.querySelector('.element__button-like').classList.toggle('element__button-like_on')
-    //event.target.classList.toggle('element__button-like_on');
-    
+    this._element.querySelector('.element__button-like').classList.toggle('element__button-like_on');
+    /* Попробовать 17 строку вывести в отдельный метод и связать с объектом, содержащим константы.
+     Цель - сделать общие константы для всех методов класса.
+    Подумать, мб стоит вынести из метода createCard  все переменные в отдельный фаил и сделать объектом, 
+    что бы потом через ключ.значение передавать DOM- элементБ но тогда теряется контектс this и работать функция скорее -всего не будет, 
+    т.к.в 17 строке мы определяем, что есть this_.element.
+    */
   }
 
   /* функция открытия попап-блока с картинкой на полный экран*/
