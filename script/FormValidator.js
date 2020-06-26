@@ -2,7 +2,7 @@ export class FormValidator {
 
   constructor(formElement, objectWithSelectors) {
       this._formElement = formElement;
-      this._objectWithSelectors = objectWithSelectors;
+      this._objectWithSelectors = objectWithSelectors;      
   }
 
   _showInputError = (inputElement, errorMessage) => {
@@ -12,12 +12,16 @@ export class FormValidator {
       errorElement.classList.add(this._objectWithSelectors.activeErrorClass);
   }
 
-//функция скрытия сообщения об ошибке
-  _hideInputError = (inputElement) => {
-      const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
+  //функция сброса состояния ошибок
+  resetInputError() {
+      this._allInput = Array.from(this._formElement.querySelectorAll(this._objectWithSelectors.popupInput));
+      this._allInput.forEach((inputElement) => {
+      const errorElement =  this._formElement.querySelector(`#${inputElement.id}-error`);
       inputElement.classList.remove(this._objectWithSelectors.inputErrorClass);
       errorElement.classList.remove(this._objectWithSelectors.activeErrorClass);
-      errorElement.textContent = '';
+      errorElement.textContent = '';    
+      });
+      this._resetButtonState();
   }
 
 //функция проверки валидности
@@ -25,7 +29,7 @@ export class FormValidator {
       if (!inputElement.validity.valid) {
           this._showInputError(inputElement, inputElement.validationMessage, this._objectWithSelectors);
       } else {
-          this._hideInputError(inputElement, this._objectWithSelectors);
+          this.resetInputError(inputElement, this._objectWithSelectors);
       }
   }
 
@@ -35,7 +39,7 @@ export class FormValidator {
       const buttonElement = this._formElement.querySelector(this._objectWithSelectors.popupButtonSave);
       this._toggleButtonState(inputList, buttonElement, this._objectWithSelectors.popupButtonSaveInactive); // к сожалению не могу побороть настрйоку vs - при автосохранении программа сама переносит код на новые строчки :(
       inputList.forEach((inputElement) => {
-          this._hideInputError(inputElement);
+          this.resetInputError(inputElement);
           inputElement.addEventListener('input', () => {
               this._checkInputValidity(inputElement, this._objectWithSelectors);
               this._toggleButtonState(inputList, buttonElement, this._objectWithSelectors.popupButtonSaveInactive);
@@ -44,10 +48,7 @@ export class FormValidator {
   }
 
 // метод включения валидации формы
-  enableValidation = () => {
-      /*this._formElement.addEventListener('submit', (evt) => {
-          evt.preventDefault();
-      });*/
+  enableValidation = () => {      
       this._setEventListeners(this._objectWithSelectors);
   }
 
@@ -58,7 +59,7 @@ export class FormValidator {
       });
   }
 
-// функцияизменения состояния кнопки в модальных окнах в зависимости от прохождения/ не прохожждения валидации
+// функция изменения состояния кнопки в модальных окнах в зависимости от прохождения/ не прохожждения валидации
   _toggleButtonState = (inputList, submitElement) => {
       if (this._hasInvalidInput(inputList)) {
           submitElement.classList.add(this._objectWithSelectors.popupButtonSaveInactive);
@@ -68,4 +69,16 @@ export class FormValidator {
           submitElement.removeAttribute('disabled');
       }
   }
+  
+  //функция сброса состояния кнопки
+ _resetButtonState() {
+    const button = this._formElement.querySelector(this._objectWithSelectors.popupButtonSave);
+    if (button.classList.contains('popup__button-save_form_add')) {
+      button.classList.add(this._objectWithSelectors.popupButtonSaveInactive);
+      button.setAttribute('disabled', true);
+    } else {
+      button.classList.remove(this._objectWithSelectors.popupButtonSaveInactive);
+      button.removeAttribute('disabled');
+    }
+    }
 }
