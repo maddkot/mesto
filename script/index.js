@@ -1,7 +1,6 @@
 /* ---------
-Постарался поправить замечания. Не очень нравится работа функции состояния кнопки. 
-Есть ощущение, что происходит частичное задваивание функционала и можно это вынести все в один метод.
-Как это реализовать элегантно - пока не придумал. 
+Постарался исправить Ваше замечание. надеюсь, что правильно Вас понял. 
+Вне зависимости . сдам я работу или нет - спасибо огромнео за ревью!
 ----------- */
 
 import { Card } from './Card.js';
@@ -50,7 +49,7 @@ popupAddFormValid.enableValidation();
 function openProfilePopup() {  
   arrayVariables.popupFullName.value = arrayVariables.fullName.textContent; 
   arrayVariables.popupDescription.value = arrayVariables.description.textContent;  
-  popupEditProfileValid.resetInputError();
+  popupEditProfileValid.resetInputError();  
   openPopup(arrayVariables.popupEditProfile);  
 } 
 
