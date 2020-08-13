@@ -1,5 +1,5 @@
 /*-----МАССИВ ПЕРЕМЕННЫХ-----*/
-export const initialCards = [
+export const arrayInitialCards = [
     {
       name: 'Архыз',
       link:

@@ -1,3 +1,5 @@
+import { objectWithSelectors } from '../components/constants.js';
+
 export class FormValidator {
 
   constructor(formElement, objectWithSelectors) {

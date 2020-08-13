@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="сайт о местах">
   <meta name="keywords" content="Места для путешествий по России Фотографии красивых мест России">
-  <link rel="stylesheet" href="page/index.css">
+  <link rel="stylesheet" href="pages/index.css">
   <title>Mesto Russia</title>
 </head>
 
@@ -53,11 +53,11 @@
           <h3 class="popup__title">Редактировать профиль</h3>
           <div class="popup__inputs">
             <input id="full-name-input" class="popup__input popup__input_full-name" type="text"
-              name="popup__input_full-name" required placeholder="Введите имя" minlength="2" maxlength="40"
+              name="fullName" required placeholder="Введите имя" minlength="2" maxlength="40"
               autocomplete="off" pattern="[А-Яа-я ёЁ A-Za-z -]{1,}">
             <span id="full-name-input-error" class="popup__input-error"></span>
             <input id="descriptions-input" class="popup__input popup__input_description" type="text"
-              name="popup__input_description" required placeholder="Введите профессию" minlength="2" maxlength="200"
+              name="description" required placeholder="Введите профессию" minlength="2" maxlength="200"
               autocomplete="off">
             <span id="descriptions-input-error" class="popup__input-error"></span>
           </div>
@@ -78,10 +78,10 @@
         <form class="popup__form popup__form_add" action="#" method="GET" name="popup__form_add-newCard" novalidate>
           <h3 class="popup__title">Новое место</h3>
           <div class="popup__inputs">
-            <input id="card-title-input" class="popup__input popup__input_title" type="text" name="popup__input_title"
+            <input id="card-title-input" class="popup__input popup__input_title" type="text" name="title"
               required placeholder="Название" minlength="1" maxlength="30" autocomplete="off">
             <span id="card-title-input-error" class="popup__input-error"></span>
-            <input id="url-input" class="popup__input popup__input_url" type="url" name="popup__input_url" required
+            <input id="url-input" class="popup__input popup__input_url" type="url" name="url" required
               placeholder="Cсылка на картинку (url)" autocomplete="off">
             <span id="url-input-error" class="popup__input-error"></span>
           </div>
@@ -118,7 +118,7 @@
     </div>
   </template>
   
-  <script  type='module' src="./script/index.js"></script>
+  <script  type='module' src="./pages/index.js"></script>
 
 </body>
 

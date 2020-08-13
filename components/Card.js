@@ -1,15 +1,15 @@
-import { openPopup } from './utilits.js';
 
 export class Card {
-  constructor(link, name, cardSelector) {
-    this._link = link;
-    this._name = name;
+  constructor(array, cardSelector, {handleCardClick}) {
+    this._link = array.link;
+    this._name = array.name;
     this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   /* Функция копирования template элемента*/
   _getElementTemplate() {
-    return this._cardSelector.content.querySelector('.element').cloneNode(true);  
+    return document.querySelector(this._cardSelector).content.querySelector('.element').cloneNode(true);  
   }
 
   /*функция добавления карточек на страницу из массива c правилом проверки для расположения*/
@@ -19,13 +19,14 @@ export class Card {
     const elementText = this._element.querySelector('.element__text');
     const elementButtonLike = this._element.querySelector('.element__button-like');
     const elementBasket = this._element.querySelector('.element__basket');
+    
     elementPhoto.src = this._link;
     elementPhoto.alt = this._name;    
     elementText.textContent = this._name;
 
     elementButtonLike.addEventListener('click', () => this._likeClick());
     elementBasket.addEventListener('click', () => this._deleteClick());
-    elementPhoto.addEventListener('click', this._imageClick);
+    elementPhoto.addEventListener('click', () => this._handleCardClick());
     return this._element;
   }
 
@@ -37,17 +38,11 @@ export class Card {
 
   /* функция удаления/добавления лайка*/
   _likeClick() {
-    this._element.querySelector('.element__button-like').classList.toggle('element__button-like_on');
-    /* Попробовать 17 строку вывести в отдельный метод и связать с объектом, содержащим константы.
-     Цель - сделать общие константы для всех методов класса.
-    Подумать, мб стоит вынести из метода createCard  все переменные в отдельный фаил и сделать объектом, 
-    что бы потом через ключ.значение передавать DOM- элементБ но тогда теряется контектс this и работать функция скорее -всего не будет, 
-    т.к.в 17 строке мы определяем, что есть this_.element.
-    */
+    this._element.querySelector('.element__button-like').classList.toggle('element__button-like_on')    
   }
 
   /* функция открытия попап-блока с картинкой на полный экран*/
-  _imageClick = () => {
+  /* _imageClick = () => {
     const popupImage = document.querySelector('.popup-image'); // попаg-блок - галерея картинок
     const popupImageFrame = document.querySelector('.popup-image__frame'); // картинка в попап-блоке галереии картинок
     const popupImageTitle = document.querySelector('.popup-image__title'); // подпись в попап-блоке галереии картинок
@@ -55,5 +50,5 @@ export class Card {
     popupImageFrame.alt = this._name;
     popupImageTitle.textContent = this._name;
     openPopup(popupImage);
-  }
-}
+  }*/
+} 
