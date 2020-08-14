@@ -8,14 +8,14 @@ export class FormValidator {
   }
 
     //+метод показа ошибок в спан
-  _showInputError = (inputElement, errorMessage) => {
+  _showInputError(inputElement, errorMessage) {
       const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
       inputElement.classList.add(this._objectWithSelectors.inputErrorClass);
       errorElement.textContent = errorMessage;
       errorElement.classList.add(this._objectWithSelectors.activeErrorClass);
   }
 
-    _hideInputError = (inputElement) => {
+    _hideInputError(inputElement) {
       const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`); 
       inputElement.classList.remove(this._objectWithSelectors.inputErrorClass); 
       errorElement.classList.remove(this._objectWithSelectors.activeErrorClass); 
@@ -35,7 +35,7 @@ export class FormValidator {
   }
 
 //+функция проверки валидности
-  _checkInputValidity = (inputElement) => {
+  _checkInputValidity(inputElement){
       if (!inputElement.validity.valid) {
           this._showInputError(inputElement, inputElement.validationMessage, this._objectWithSelectors);
       } else {
@@ -44,7 +44,7 @@ export class FormValidator {
   }
 
 // +функция создания и перебора массива из всех импутов формы с перебором этого массива и установлением слушателя с функцией првоерки валидности и функцией изменения состояния кнопки
-  _setEventListeners = () => {
+  _setEventListeners(){
       const inputList = Array.from(this._formElement.querySelectorAll(this._objectWithSelectors.popupInput));
       const buttonElement = this._formElement.querySelector(this._objectWithSelectors.popupButtonSave);
       this._toggleButtonState(inputList, buttonElement, this._objectWithSelectors.popupButtonSaveInactive); // к сожалению не могу побороть настрйоку vs - при автосохранении программа сама переносит код на новые строчки :(
@@ -58,19 +58,19 @@ export class FormValidator {
   }
 
 // +метод включения валидации формы
-  enableValidation = () => {      
+  enableValidation(){      
       this._setEventListeners(this._objectWithSelectors);
   }
 
 // +функция, которая проверяет прохождение валидности в каждом поле и возвращает результат проверки
-  _hasInvalidInput = (inputList) => {
+  _hasInvalidInput(inputList) {
       return inputList.some((inputElement) => {
           return !inputElement.validity.valid;
       });
   }
 
 // +функция изменения состояния кнопки в модальных окнах в зависимости от прохождения/ не прохожждения валидации
-  _toggleButtonState = (inputList, submitElement) => {
+  _toggleButtonState(inputList, submitElement) {
       if (this._hasInvalidInput(inputList)) {
           submitElement.classList.add(this._objectWithSelectors.popupButtonSaveInactive);
           submitElement.setAttribute('disabled', true);

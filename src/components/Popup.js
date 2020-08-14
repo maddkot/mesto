@@ -5,13 +5,13 @@ export class Popup {
       this._handleEscClose = this._handleEscClose.bind(this);
     }
 
-    _handleOverlayClose = (event) => {
+    _handleOverlayClose(event) {
       if (event.target.classList.contains('popup')) {
         this.close();
    }   
   }
   
-    _handleEscClose = (event) => {
+    _handleEscClose(event) {
       if (event.key === 'Escape') {          
           this.close();
       }

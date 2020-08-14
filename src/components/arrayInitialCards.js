@@ -1,5 +1,40 @@
 /*-----МАССИВ ПЕРЕМЕННЫХ-----*/
+import dombai from '../images/dombai.jpg'
+import elbrus from '../images/elbrus.jpg'
+import karachaevsk from '../images/karachaevsk.jpg'
+import kamchatka from '../images/kamchatka.jpg'
+import baikal from '../images/baikal.jpg'
+import ivanovo from '../images/ivanovo.jpg'
+
+
 export const arrayInitialCards = [
+    {
+      name: 'Байкал',
+      link: baikal
+    },
+    {
+      name: 'Камчатка',
+      link: kamchatka
+    },
+    {
+      name: 'Эльбрус',
+      link: elbrus
+    },
+    {
+      name: 'Домбай',
+      link: dombai
+    },
+    {
+      name: 'Иваново',
+      link: ivanovo
+    },
+    {
+      name: 'Карачаевск',
+      link: karachaevsk
+    },
+  ];
+
+ /*  export const arrayInitialCards = [
     {
       name: 'Архыз',
       link:
@@ -30,4 +65,4 @@ export const arrayInitialCards = [
       link:
         'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
     },
-  ];
+  ]; */
