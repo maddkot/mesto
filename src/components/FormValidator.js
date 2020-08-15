@@ -1,4 +1,4 @@
-import { objectWithSelectors } from '../components/constants.js';
+import { objectWithSelectors } from '../utils/constants.js';
 
 export class FormValidator {
 

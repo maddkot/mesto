@@ -4,7 +4,7 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Card } from '../components/Card.js';
-import { arrayInitialCards } from '../components/arrayInitialCards.js';
+import { arrayInitialCards } from '../utils/arrayInitialCards.js';
 import { FormValidator } from '../components/FormValidator.js';
 import {
   profileEditButton,
@@ -18,7 +18,7 @@ import {
   popupImage, 
   objectWithSelectors,  
   popupAddForm
-} from '../components/constants.js';
+} from '../utils/constants.js';
 
 
 //переменные классов валидации--------------------------------------------------------------------
