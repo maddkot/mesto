@@ -1,6 +1,6 @@
 import { objectWithSelectors } from '../utils/constants.js';
 
-export class FormValidator {
+export default class FormValidator {
 
   constructor(formElement, objectWithSelectors) {
       this._formElement = formElement;

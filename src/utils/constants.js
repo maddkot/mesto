@@ -18,7 +18,10 @@ export const elementTemplate = document.querySelector('.element-template');
 export const popupImage = document.querySelector('.popup-image'); // попаg-блок - галерея картинок
 export const popupImageFrame = document.querySelector('.popup-image__frame'); // картинка в попап-блоке галереии картинок
 export const popupImageTitle = document.querySelector('.popup-image__title'); // подпись в попап-блоке галереии картинок
-
+export const popupChangeAvatar = document.querySelector('.popup_avatar');
+export const avatarChangeButton = document.querySelector('.profile__avatar-button');
+export const avatarImage = document.querySelector('.profile__avatar');
+export const popupAcceptDeleteCard = document.querySelector('.popup_delete-card')
 
 //переменная, содержащая внутри объект значений (ключ-значение)
 export const objectWithSelectors = {
@@ -29,4 +32,6 @@ export const objectWithSelectors = {
   popupButtonSaveInactive: 'popup__button-save_inactive',
   popupForm: '.popup__form'  
 };
+
+
 

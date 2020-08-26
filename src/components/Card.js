@@ -1,10 +1,17 @@
 
-export class Card {
-  constructor(array, cardSelector, {handleCardClick}) {
+export default class Card {
+  constructor(myId, array, cardSelector, {handleCardClick, handlerCardDelete, handlerAddLike, handlerDeleteLike}) {
+    this._myId = myId;
+    this._like = array.likes;
+    this._id = array._id;
+    this._ownerId = array.owner._id;
     this._link = array.link;
     this._name = array.name;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
+    this._handlerCardDelete = handlerCardDelete;
+    this._handlerAddLike = handlerAddLike;
+    this._handlerDeleteLike = handlerDeleteLike;
   }
 
   /* Функция копирования template элемента*/
@@ -19,36 +26,55 @@ export class Card {
     const elementText = this._element.querySelector('.element__text');
     const elementButtonLike = this._element.querySelector('.element__button-like');
     const elementBasket = this._element.querySelector('.element__basket');
+    const likeCounter = this._element.querySelector('.element__like-counter');
     
     elementPhoto.src = this._link;
     elementPhoto.alt = this._name;    
     elementText.textContent = this._name;
+    likeCounter.textContent = `${this._like.length}`;
 
-    elementButtonLike.addEventListener('click', () => this._likeClick());
-    elementBasket.addEventListener('click', () => this._deleteClick());
+    this._element.id = this._id;
+
+    elementButtonLike.addEventListener('click', () => this._renderLike());
+    elementBasket.addEventListener('click', () => this._handlerCardDelete());
     elementPhoto.addEventListener('click', () => this._handleCardClick());
+
+    
+
+    if (this._like.find((like) => {      
+      return like._id === this._myId
+    })) {
+      elementButtonLike.classList.add('element__button-like_on');
+    };
+    
+    if (this._ownerId === this._myId) {
+      elementBasket.style.display = 'block'; 
+    } else {
+      elementBasket.style.display = 'none';
+    }
+
     return this._element;
   }
 
   /* функция удаления карточки */
-  _deleteClick() {    
-    this._element.remove();
-    this._element = null;
+  deleteClick() {    
+    this._element.remove();    
   }
 
   /* функция удаления/добавления лайка*/
-  _likeClick() {
+  likeClick() {
     this._element.querySelector('.element__button-like').classList.toggle('element__button-like_on')    
   }
 
-  /* функция открытия попап-блока с картинкой на полный экран*/
-  /* _imageClick = () => {
-    const popupImage = document.querySelector('.popup-image'); // попаg-блок - галерея картинок
-    const popupImageFrame = document.querySelector('.popup-image__frame'); // картинка в попап-блоке галереии картинок
-    const popupImageTitle = document.querySelector('.popup-image__title'); // подпись в попап-блоке галереии картинок
-    popupImageFrame.src = this._link;
-    popupImageFrame.alt = this._name;
-    popupImageTitle.textContent = this._name;
-    openPopup(popupImage);
-  }*/
+  //метод подсчета лайков
+  likeCounter(item) {
+    this._element.querySelector('.element__like-counter').textContent = item.length;
+  }
+
+  //метод отображения лайков
+  _renderLike() {
+    const like = this._element.querySelector('.element__button-like');
+    //используем тернарный оператор для проверки  и выбора метода из колбека
+    !like.classList.contains('element__button-like_on') ? this._handlerAddLike() : this._handlerDeleteLike();
+  }
 } 

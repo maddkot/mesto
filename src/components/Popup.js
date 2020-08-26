@@ -1,4 +1,4 @@
-export class Popup {
+export default class Popup {
     constructor(itemPopup) {
       this._itemPopup = itemPopup;
       this._handleOverlayClose = this._handleOverlayClose.bind(this);
@@ -37,3 +37,5 @@ export class Popup {
       });
     }   
 }
+
+
