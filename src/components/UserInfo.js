@@ -2,7 +2,7 @@ export default class UserInfo {
     constructor({ fullNameSelector, descriptionSelector, profileAvatar }) {
         this._fullName = fullNameSelector;
         this._description = descriptionSelector;
-        this._profileAvatar = profileAvatar;
+        this._profileAvatar = profileAvatar;       
     }
 
 
@@ -11,7 +11,8 @@ export default class UserInfo {
         return {
             fullName: this._fullName.textContent,
             description: this._description.textContent,
-            avatar: this._profileAvatar.src
+            avatar: this._profileAvatar.src,
+            
         };
     }
 
@@ -27,6 +28,7 @@ export default class UserInfo {
         this._fullName.textContent = item.name;
         this._description.textContent = item.about;
         this._profileAvatar.src = item.avatar;
+        this._myId = item._id;
     }
 
     //метод уставноки аватарки

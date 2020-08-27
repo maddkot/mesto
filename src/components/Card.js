@@ -3,22 +3,23 @@ export default class Card {
   constructor(myId, array, cardSelector, {handleCardClick, handlerCardDelete, handlerAddLike, handlerDeleteLike}) {
     this._myId = myId;
     this._like = array.likes;
-    this._id = array._id;
-    this._ownerId = array.owner._id;
+    this._id = array._id; //id карточки
+    this._ownerId = array.owner._id; //id пользователя
     this._link = array.link;
     this._name = array.name;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
     this._handlerCardDelete = handlerCardDelete;
     this._handlerAddLike = handlerAddLike;
-    this._handlerDeleteLike = handlerDeleteLike;
+    this._handlerDeleteLike = handlerDeleteLike;    
   }
 
+  
   /* Функция копирования template элемента*/
   _getElementTemplate() {
     return document.querySelector(this._cardSelector).content.querySelector('.element').cloneNode(true);  
   }
-
+  
   /*функция добавления карточек на страницу из массива c правилом проверки для расположения*/
   createCard() {
     this._element = this._getElementTemplate();
@@ -33,7 +34,7 @@ export default class Card {
     elementText.textContent = this._name;
     likeCounter.textContent = `${this._like.length}`;
 
-    this._element.id = this._id;
+    //this._element.id = this._id;
 
     elementButtonLike.addEventListener('click', () => this._renderLike());
     elementBasket.addEventListener('click', () => this._handlerCardDelete());
@@ -44,7 +45,8 @@ export default class Card {
     if (this._like.find((like) => {      
       return like._id === this._myId
     })) {
-      elementButtonLike.classList.add('element__button-like_on');
+      //elementButtonLike.classList.add('element__button-like_on');
+      elementButtonLike.classList.toggle('element__button-like_on');
     };
     
     if (this._ownerId === this._myId) {

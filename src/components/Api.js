@@ -1,10 +1,9 @@
 import { Card } from "./Card";
 
 export default class Api {
-    constructor({baseUrl, myId, headers}) {
+    constructor({baseUrl, headers}) {
         this.baseUrl = baseUrl;
-        this.headers = headers;
-        this.myId = myId;
+        this.headers = headers;        
     }
 
     //метод вызова карточек с сервера

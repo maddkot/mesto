@@ -27,8 +27,7 @@ import {
 
 
 const api = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-14",
-  myId: "8b3cdfe564b3ee4827efff74",
+  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-14",  
   headers: {
     authorization: "b1c2d7eb-517c-4978-8a15-35a77684fa2b",
     "Content-Type": "application/json"
@@ -36,34 +35,20 @@ const api = new Api({
 });
 
 //вынесем id пользователя в константу для удобного проброса в методы
-const myId = api.myId;
+//const myId = api.myId;
 
-//переменные классов валидации--------------------------------------------------------------------
-
-const popupEditProfileValid = new FormValidator(popupEditProfile, objectWithSelectors);
-const popupAddFormValid = new FormValidator(popupAddCard, objectWithSelectors);
-const popupChangeAvatarValid = new FormValidator(popupChangeAvatar, objectWithSelectors);
-
-//вызов метода валидации--------------------------------------------------------------------------
-
-popupEditProfileValid.enableValidation();
-popupAddFormValid.enableValidation();
-popupChangeAvatarValid.enableValidation();
-
-//переменная класса картинки со слушателем закрытия (родительский метод)-------------------------
-const popupWithImage = new PopupWithImage(popupImage);
-popupWithImage.setEventListeners();
-
-//переменная класса удаления карточки со слушателем----------------------------------------------
-
-const popupDelete = new PopupDelete(popupAcceptDeleteCard)
-popupDelete.setEventListeners();
+// пробрасываем получение данных о пользователе и рендеринг дефолтных карточек------------------------------
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, initialCards]) => {
+    //получение данных о пользователе и их отправка на сервер-----------------------------------------------
+    userInfo.setUserInfo(userData); 
+    //создадим константу с id пользователя------------------------------------------------------
+    const testMyID = userData._id;    
 
 
 //функция рендеринга карточек--------------------------------------------------------------------
-
-function renderingCards(item) {
-  const card = new Card(myId, item, '.element-template', {
+function renderingCards(item) {  
+  const card = new Card(/*myId*/testMyID, item, '.element-template', {
     handleCardClick: () => {
       popupWithImage.open(item.name, item.link);
     },
@@ -73,9 +58,13 @@ function renderingCards(item) {
       popupDelete.setSubmit(() => {        
         api.deleteCard(card._id)
           .then(() => {            
-              card.deleteClick();              
-            })
-      });
+            card.deleteClick();
+            popupDelete.close();
+          })
+          .catch((err) => {
+            console.log(err); 
+          });
+      });     
     },
 
     //функция добавления лайка 
@@ -100,94 +89,95 @@ function renderingCards(item) {
           console.log(err); 
         });
     }
-  });
-
+  });  
   //отрисовка карточек (мягкая связь с классом секции и его методом добавления)
-  renderingDefaultCards.addItem(card.createCard());
-}
+    renderingDefaultCards.addItem(card.createCard());
+    }
+    
+  //отрисовка дефолтных карточек-------------------------------------------------------------------
+    const renderingDefaultCards = new Section({  
+      renderer: (item) => {      
+        renderingCards(item);       
+      }
+    }, '.elements');
 
-//отрисовка дефолтных карточек-------------------------------------------------------------------
-
-const renderingDefaultCards = new Section({  
-  renderer: (item) => {      
-    renderingCards(item);       
-  }
-}, '.elements'); 
+  //вызов отрисовки дефолтных карточек с сервера--------------------------------------------------------------
+    renderingDefaultCards.rendererItems(initialCards);
 
 
-//вызов отрисовки дефолтных карточек с сервера--------------------------------------------------------------
-
-api.getInitialCards()
-  .then((res) => {
-    renderingDefaultCards.rendererItems(res);
+  //добавление карточек из попапа------------------------------------------------------------------
+  const createCardPopup = new PopupWithForm(popupAddForm, {
+    submitForm: (item) => {
+      textLoader(popupAddForm, true, 'Создание...')
+      api.addNewCard(item)
+        .then((res) => {        
+          renderingCards(res);
+          createCardPopup.close();
+        })
+        .catch((err) => {
+          console.log(err); 
+        });    
+    }
   });
-
-//добавление карточек из попапа------------------------------------------------------------------
-
-const createCardPopup = new PopupWithForm(popupAddForm, {
-  submitForm: (item) => {
-    textLoader(popupAddForm, true, 'Создание...')
-    api.addNewCard(item)
-      .then((res) => {        
-        renderingCards(res);        
-      })
-      .catch((err) => {
-        console.log(err); 
-      });
-    createCardPopup.close();
-  }
-});
-
-
-//устанавливаем слушатель на кнопку и присваиваем сброс ошибок и открытие попапа---------------------
-addButton.addEventListener('click', () => {
-  popupAddFormValid.resetInputError();
-  textLoader(popupAddForm, false, 'Создать');
-   createCardPopup.open();
- })
-
 
 //устанавливаем метод/слушатель на попа добавлени ядля сабмита, закрытия по esc------------------------
+  createCardPopup.setEventListeners();    
+    
+//устанавливаем слушатель на кнопку и присваиваем сброс ошибок и открытие попапа---------------------
+  addButton.addEventListener('click', () => {
+    popupAddFormValid.resetInputError();
+    textLoader(popupAddForm, false, 'Создать');
+    createCardPopup.open();
+  })    
 
-createCardPopup.setEventListeners();
+    })  
+    .catch(err => console.log(err))
+  
+
+//переменные классов валидации--------------------------------------------------------------------
+const popupEditProfileValid = new FormValidator(popupEditProfile, objectWithSelectors);
+const popupAddFormValid = new FormValidator(popupAddCard, objectWithSelectors);
+const popupChangeAvatarValid = new FormValidator(popupChangeAvatar, objectWithSelectors);
+
+//вызов метода валидации--------------------------------------------------------------------------
+popupEditProfileValid.enableValidation();
+popupAddFormValid.enableValidation();
+popupChangeAvatarValid.enableValidation();
+
+//переменная класса картинки со слушателем закрытия (родительский метод)-------------------------
+const popupWithImage = new PopupWithImage(popupImage);
+popupWithImage.setEventListeners();
+
+//переменная класса удаления карточки со слушателем----------------------------------------------
+const popupDelete = new PopupDelete(popupAcceptDeleteCard)
+popupDelete.setEventListeners();
+
 
 //данные о пользователе--------------------------------------------------------------------------
-
 const userInfo = new UserInfo({
  fullNameSelector: fullName,
  descriptionSelector: description,
- profileAvatar: avatarImage
+ profileAvatar: avatarImage  
 });
 
 
-//получение данных о пользователе и их отправка на сервер----------------------------------------------------------------
-
-api.getUserInfo()
-  .then((res) => {    
-    userInfo.setUserInfo(res);
-  })
-  .catch((err) => {
-    console.log(err); 
-  });
-
+//отправка данных через попап---------------------------------------------------------------------------------------------
 const profilePopup = new PopupWithForm(popupEditProfile, {
   submitForm: (item) => {
     textLoader(popupEditProfile, true, 'Сохранение...')
     api.setUserInfo(item)
       .then((res) => {
-      userInfo.setUserInfo(res);
-    })
-    
-    profilePopup.close();
+        userInfo.setUserInfo(res);
+        profilePopup.close();
+    })   
   }
 });
 
-//устанавливаем метод/слушатель на попап редактирования профиля для закрытия по esc, сабмита--------------
-
+//устанавливаем метод/слушатель на попап редактирования профиля для закрытия по esc, сабмита--------------------
 profilePopup.setEventListeners();
+  
 
 //слушатель на кнопку открытия попапа редактирования профиля и подтягивание текущих значений со страницы--------
-
 profileEditButton.addEventListener('click', () => {  
   const user = userInfo.getUserInfo();
   popupFullName.value = user.fullName;
@@ -198,7 +188,7 @@ profileEditButton.addEventListener('click', () => {
 });
 
 
-//попап изменения аватарки
+//попап изменения аватарки---------------------------------------------------------------------------------
 const avatarPopup = new PopupWithForm(popupChangeAvatar, {
   submitForm: (item) => {
     textLoader(popupChangeAvatar, true, 'Сохранение...')    
@@ -214,23 +204,23 @@ const avatarPopup = new PopupWithForm(popupChangeAvatar, {
 })
 
 
-//слушатель методов закрытия и на кнопку изменения аватарки
+//слушатель методов закрытия и на кнопку изменения аватарки------------------------------------------------
+  avatarPopup.setEventListeners();
 
-avatarPopup.setEventListeners();
-
-avatarChangeButton.addEventListener('click', () => { 
-  popupChangeAvatarValid.resetInputError();
-  textLoader(popupChangeAvatar, false, 'Сохранить');
-  avatarPopup.open();
-});
+  avatarChangeButton.addEventListener('click', () => { 
+    popupChangeAvatarValid.resetInputError();
+    textLoader(popupChangeAvatar, false, 'Сохранить');
+    avatarPopup.open();
+  });
 
 
-//функция отображения текста на кнопке при предзагрузки/отправки данных
-function textLoader(popupForm, status, textLoad) {  
-  if (status) {
-    popupForm.querySelector('.popup__button-save').textContent = textLoad;    
+//функция отображения текста на кнопке при предзагрузки/отправки данных--------------------------------
+  function textLoader(popupForm, status, textLoad) {  
+    if (status) {
+      popupForm.querySelector('.popup__button-save').textContent = textLoad;    
+    }
+    else {
+      popupForm.querySelector('.popup__button-save').textContent = textLoad;
+    }  
   }
-  else {
-    popupForm.querySelector('.popup__button-save').textContent = textLoad;
-  }  
-}
+
