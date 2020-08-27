@@ -13,5 +13,5 @@
 
 **Ссылка на ресурс**
 
-* [Ссылка на сайт](https://maddkot.github.io/mesto/src/index.html)
+* [Ссылка на сайт](https://maddkot.github.io/mesto/)
 
